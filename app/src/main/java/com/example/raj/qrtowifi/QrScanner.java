@@ -126,12 +126,16 @@ class foodItem{
     String name;
     String descriptions;
     float price;
+    boolean order;
+    int count;
     public foodItem(int idd, float pr, String na, String desc)
     {
         this.id=idd;
         this.price = pr;
         this.name=na;
         this.descriptions=desc;
+        order=false;
+        count=0;
     }
     public String getName()
     {
@@ -149,6 +153,22 @@ class foodItem{
     {
         return this.id;
     }
+    public void setOrder(Boolean t)
+    {
+        this.order=t;
+    }
 
+    public void setCount(int t)
+    {
+        this.count=t;
+    }
+    public int getCount()
+    {
+        return this.count;
+    }
+    public boolean getOrder()
+    {
+        return this.order;
+    }
 };
 

@@ -22,7 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu"></activity>
+        <activity android:name=".Menu" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".RealHome"
+            android:label="@string/title_activity_real_home" />
+        <activity
+            android:name=".bill"
+            android:label="@string/title_activity_bill"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

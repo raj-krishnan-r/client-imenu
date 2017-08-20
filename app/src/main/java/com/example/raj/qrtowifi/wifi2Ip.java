@@ -50,6 +50,7 @@ Context cxt;
         wc.SSID = "\""+networkSSID+"\"";
         wc.preSharedKey = "\""+networkPass+"\"";
         wc.status = WifiConfiguration.Status.ENABLED;
+
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
         wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);

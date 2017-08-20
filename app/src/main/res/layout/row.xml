@@ -7,39 +7,90 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/food_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/menuFoodTitle"
-            android:text="Vanilla Choclate Icecream"
-            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/food_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/menuFoodPrice"
+            <TextView
+                android:id="@+id/food_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vanilla Choclate Icecream"
+                android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:textColor="@color/menuFoodTitle" />
+
+            <TextView
+                android:id="@+id/food_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vanilla Choclate Icecream"
 
 
-            android:text="Vanilla Choclate Icecream"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/menuFoodPrice" />
 
-        <TextView
-            android:id="@+id/food_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/menuFoodDesc"
+            <TextView
+                android:id="@+id/food_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
 
-            android:layout_weight="1"
-            android:text="Vanilla Choclate Icecream"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.DropDownHint" />
+                android:text="Vanilla Choclate Icecream"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.DropDownHint"
+                android:textColor="@color/menuFoodDesc" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/orderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-" />
+
+                    <EditText
+                        android:id="@+id/ordercount"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="00"
+                        android:inputType="number" />
+
+                    <Button
+                        android:id="@+id/ordermore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+" />
+
+                    <Button
+                        android:id="@+id/order"
+                        android:enabled="false"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

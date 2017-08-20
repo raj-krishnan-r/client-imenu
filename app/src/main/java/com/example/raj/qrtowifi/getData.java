@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.zxing.Reader;
 import com.google.zxing.qrcode.encoder.QRCode;
 
 import org.json.JSONArray;
@@ -69,7 +70,7 @@ String inputLine,resultString="";
            // Toast.makeText(c,result,Toast.LENGTH_LONG).show();
 
 if(result.substring(0,1).equals("[")) {
-    Intent intent = new Intent(c, Menu.class);
+    Intent intent = new Intent(c, RealHome.class);
     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
     intent.putExtra("jsonresult", result);
     intent.putExtra("tableid", tableid);
