@@ -17,36 +17,54 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+
 
 public class TopSectionFragment extends Fragment {
+
+
     public itemAdapter adap;
     public ListView lv;
     View v;
+    public Context cx;
 
 
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://192.168.43.203:3000");
+        } catch (URISyntaxException e) {}
+    }
 
     TopSectionListener activityCommander;
     public interface TopSectionListener{
         public void createMeme(String top,String bottom);
 
         }
-
-
-
         @Override
         public void onAttach(Context context)
         {
             super.onAttach(context);
+
+
+
             Activity activity = getActivity();
             try {
                 activityCommander = (TopSectionListener) activity;
             }catch(ClassCastException e)
             {
                 //throw new ClassCastException(activity.toString());
-                Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(),"",Toast.LENGTH_SHORT).show();
             }
+
+
         }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -67,20 +85,14 @@ public class TopSectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle SavedInstances)
     {
-        super.onCreate(SavedInstances);
-        setRetainInstance(true);
+        super.onCreate(null);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//Toast.makeText(getContext(),val,Toast.LENGTH_SHORT).show();
 
+        //mSocket.connect();
         setRetainInstance(true);
-
-        if(savedInstanceState!=null)
-        {
-            Toast.makeText(getContext(),"Previous State Exisits",Toast.LENGTH_SHORT).show();
-
-        }
-
 
 View view = inflater.inflate(R.layout.top_segment_fragment,container,false);
 lv = (ListView) view.findViewById(R.id.itemsMenu);
@@ -88,28 +100,32 @@ lv = (ListView) view.findViewById(R.id.itemsMenu);
         v = view;
         String strtext = getArguments().getString("jsontext");
         lv.setAdapter(adap);
-
         try {
-            int position = 0;
-            int size = 0;
-            JSONArray rj = new JSONArray(strtext);
-            while(position<rj.length()) {
-                foodItem tempItem = new foodItem(1, 75, rj.getString(position), "Some stuff about the dish.");
-                adap.add(tempItem);
-                position++;
+           JSONArray root = new JSONArray(strtext);
+            int rootposition = 0;
+            while(rootposition<root.length())
+            {
+                if(((RealHome)getContext()).foodit.size()==0) {
+
+                    int childposition = 0;
+                    while(childposition<root.length())
+                    {
+                        JSONObject ele = root.getJSONObject(childposition);
+                        foodItem tempItem = new foodItem(ele.getInt("itemid"), (float) ele.getDouble("price"), ele.getString("name"), ele.getString("shortdescription"),"");
+                        adap.add(tempItem);
+                        childposition++;
+
+                    }
+                }
+                rootposition++;
+
             }
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
 
-
         return  view;
-
-    }
-
-
-    public void setJSON(String json,Context context)
-    {
 
     }
 

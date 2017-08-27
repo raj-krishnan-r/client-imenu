@@ -34,15 +34,25 @@ public class getData extends AsyncTask<URL,String,String> {
     Activity rec;
 
     int tableid;
+    String host;
 
-    public getData(Context as,int table)
+    public getData(Context as,int table,String hst)
     {
         c=as;
+        host = hst;
         tableid=table;
     }
     public getData(Context as)
     {
         c=as;
+    }
+
+    public getData(Context as,int tableid)
+    {
+        tableid=tableid;
+        c=as;
+
+
     }
 
 
@@ -61,7 +71,7 @@ String inputLine,resultString="";
             return resultString;
         } catch (IOException e) {
             e.printStackTrace();
-            return args[0].toString()+","+tableid;
+            return args[0].toString()+","+tableid+","+host;
         }
 
     }
@@ -73,7 +83,11 @@ if(result.substring(0,1).equals("[")) {
     Intent intent = new Intent(c, RealHome.class);
     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
     intent.putExtra("jsonresult", result);
-    intent.putExtra("tableid", tableid);
+    intent.putExtra("tableid", String.valueOf(tableid));
+
+    Toast.makeText(c,host,Toast.LENGTH_SHORT).show();
+    intent.putExtra("hostip", host);
+
     c.startActivity(intent);
 }
 else
@@ -83,7 +97,8 @@ else
         URL ur = new URL(box[0]);
 
         int tableid = Integer.parseInt(box[1]);
-        new getData(c,tableid).execute(ur);
+
+        new getData(c,tableid,box[2]).execute(ur);
 
     } catch (MalformedURLException e) {
         e.printStackTrace();

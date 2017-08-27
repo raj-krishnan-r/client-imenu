@@ -75,7 +75,7 @@ public class QrScanner extends AppCompatActivity implements ZXingScannerView.Res
             Toast.makeText(getApplicationContext(), "Wifi SSID : " + particular[1] + "\nWifi Password : " + particular[2] + "\nIP : " + particular[3]+"\nTable Id : "+particular[4], Toast.LENGTH_SHORT).show();
 
          int tableid = Integer.parseInt(particular[4]);
-         new wifi2Ip(getApplicationContext(), tableid).execute(particular[1],particular[2],particular[3]);
+         new wifi2Ip(getApplicationContext(), tableid,particular[3]).execute(particular[1],particular[2],particular[3]);
 
             /*URL url = null;
             try {
@@ -128,12 +128,14 @@ class foodItem{
     float price;
     boolean order;
     int count;
-    public foodItem(int idd, float pr, String na, String desc)
+    String orderid;
+    public foodItem(int idd, float pr, String na, String desc,String orderid)
     {
         this.id=idd;
         this.price = pr;
         this.name=na;
         this.descriptions=desc;
+        this.orderid=orderid;
         order=false;
         count=0;
     }
@@ -152,6 +154,10 @@ class foodItem{
     public int getId()
     {
         return this.id;
+    }
+    public String getOrderid()
+    {
+        return this.orderid;
     }
     public void setOrder(Boolean t)
     {

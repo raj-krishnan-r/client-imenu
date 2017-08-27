@@ -19,16 +19,17 @@ import static android.content.Context.WIFI_SERVICE;
 public class wifi2Ip extends AsyncTask<String,String,String> {
 Context cxt;
     int tid;
+    String ip;
     WifiManager wifiManager;
 
-    public wifi2Ip(Context context,int tableid)
+    public wifi2Ip(Context context,int tableid,String host)
 {
     cxt=context;
     tid = tableid;
+    ip=host;
     wifiManager =  (WifiManager) cxt.getSystemService(Context.WIFI_SERVICE);
 }
     protected String doInBackground(String... args) {
-
         /*
         WifiConfiguration wifiConfig = new WifiConfiguration();
         wifiConfig.SSID = String.format("\"%s\"", args[0]);
@@ -71,13 +72,10 @@ Context cxt;
         try {
             url = new URL("http://" + res + ":3000/listings");
             wifiManager.reconnect();
-            new getData(cxt,tid).execute(url);
+            new getData(cxt,tid,ip).execute(url);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }

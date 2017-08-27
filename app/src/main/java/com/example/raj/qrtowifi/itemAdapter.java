@@ -11,14 +11,20 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 class itemAdapter extends ArrayAdapter<foodItem>{
 
-    private List<foodItem> fooditemslist = new ArrayList<foodItem>();
 private Context context;
     private TextView foodname;
     private TextView foodprice;
@@ -27,37 +33,50 @@ private Context context;
     View pview,row;
 
 
+   /* private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://192.168.43.203:3000");
+        } catch (URISyntaxException e) {}
+    }*/
     @Override
     public void add(foodItem obj)
     {
-        fooditemslist.add(obj);
+        ((RealHome)context).foodit.add(obj);
+        //fooditemslist.add(obj);
         super.add(obj);
     }
     public itemAdapter(Context context, int textViewResourceId,View parentView){
         super(context,textViewResourceId);
         this.context=context;
         this.pview = parentView;
+        //mSocket.connect();
+
+
 
     }
     public itemAdapter(Context context, int textViewResourceId){
         super(context,textViewResourceId);
         this.context=context;
+        //mSocket.connect();
+
     }
 
     public int getCount(){
-        return this.fooditemslist.size();
+        //return this.fooditemslist.size();\
+        return ((RealHome)context).foodit.size();
     }
 
     public foodItem getItem(int index)
     {
-        return this.fooditemslist.get(index);
+        return ((RealHome)context).foodit.get(index);
     }
 
     public View getView(final int position, final View convertView, ViewGroup parent)
     {
         foodItem fdob = getItem(position);
         row = convertView;
-
+        ((RealHome)context).orders.add(new itemOrder(1,1));
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.row,parent,false);
         foodname = (TextView) row.findViewById(R.id.food_title);
@@ -68,13 +87,13 @@ private Context context;
         ordermore=(Button) row.findViewById(R.id.ordermore);
         orderless=(Button) row.findViewById(R.id.orderless);
         ordercount=(EditText) row.findViewById(R.id.ordercount);
-ordercount.setText(String.valueOf(fooditemslist.get(position).getCount()));
+ordercount.setText(String.valueOf(((RealHome)context).foodit.get(position).getCount()));
 
 
         order.setTag(position);
         ordermore.setTag(position);
         orderless.setTag(position);
-        if(fooditemslist.get(position).getOrder())
+        if(((RealHome)context).foodit.get(position).getOrder())
         {
            order.setEnabled(true);
         }
@@ -86,10 +105,27 @@ ordercount.setText(String.valueOf(fooditemslist.get(position).getCount()));
             public void onClick(View view) {
                 Button b = (Button) view.findViewById(R.id.order);
                 int pos = Integer.parseInt(b.getTag().toString());
-                Toast.makeText(getContext(),fooditemslist.get(pos).getName()+" Ordered.",Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getContext(),((RealHome)context).foodit.get(pos).getName()+" Ordered.",Toast.LENGTH_SHORT).show();
                 b.setEnabled(false);
-                fooditemslist.get(pos).setOrder(true);
+                ((RealHome)context).foodit.get(pos).setOrder(true);
+                //Set Unique Orderid
+                ((RealHome)context).foodit.get(pos).orderid=String.valueOf(System.currentTimeMillis())+((RealHome)getContext()).tableid;
+
+                JSONObject ob = new JSONObject();
+                try {
+                    ob.put("tableid",((RealHome)context).tableid);
+                    ob.put("item",((RealHome)context).foodit.get(pos).getName());
+                    ob.put("itemid",((RealHome)context).foodit.get(pos).getId());
+                    ob.put("count",((RealHome)context).foodit.get(pos).getCount());
+                    ob.put("orderid",((RealHome)context).foodit.get(pos).getOrderid());
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+               // mSocket.emit("order",ob.toString());
+
+                ((RealHome)context).mSocket.emit("order",ob.toString());
 
                 notifyDataSetChanged();
             }
@@ -99,11 +135,9 @@ ordercount.setText(String.valueOf(fooditemslist.get(position).getCount()));
             public void onClick(View view) {
                 Button b = (Button) view.findViewById(R.id.ordermore);
                 int pos = Integer.parseInt(b.getTag().toString());
-                fooditemslist.get(pos).setOrder(true);
-                ordercount.setText(String.valueOf(fooditemslist.get(pos).getCount()+1));
-                fooditemslist.get(pos).setCount(fooditemslist.get(pos).getCount()+1);
-
-
+                ((RealHome)context).foodit.get(pos).setOrder(true);
+                ordercount.setText(String.valueOf(((RealHome)context).foodit.get(pos).getCount()+1));
+                ((RealHome)context).foodit.get(pos).setCount(((RealHome)context).foodit.get(pos).getCount()+1);
                 notifyDataSetChanged();
 
             }
@@ -114,14 +148,14 @@ ordercount.setText(String.valueOf(fooditemslist.get(position).getCount()));
             public void onClick(View view) {
                 Button b = (Button) view.findViewById(R.id.orderless);
                 int pos = Integer.parseInt(b.getTag().toString());
-                if(fooditemslist.get(pos).getCount()!=0) {
-                    ordercount.setText(String.valueOf(fooditemslist.get(pos).getCount() - 1));
-                    fooditemslist.get(pos).setCount(fooditemslist.get(pos).getCount() - 1);
+                if(((RealHome)context).foodit.get(pos).getCount()!=0) {
+                    ordercount.setText(String.valueOf(((RealHome)context).foodit.get(pos).getCount() - 1));
+                    ((RealHome)context).foodit.get(pos).setCount(((RealHome)context).foodit.get(pos).getCount() - 1);
 
 
-                    if(fooditemslist.get(pos).getCount()==0)
+                    if(((RealHome)context).foodit.get(pos).getCount()==0)
                     {
-                        fooditemslist.get(pos).setOrder(false);
+                        ((RealHome)context).foodit.get(pos).setOrder(false);
                     }
                     notifyDataSetChanged();
                 }
