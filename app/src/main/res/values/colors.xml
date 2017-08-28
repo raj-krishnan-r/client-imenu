@@ -6,5 +6,7 @@
     <color name="menuFoodTitle">#b33360</color>
     <color name="menuFoodPrice">#f29d3d</color>
     <color name="menuFoodDesc">#c39667</color>
+    <color name="categoryTitle">#275014</color>
+    <color name="categoryBack">#65325000</color>
 
 </resources>

@@ -41,6 +41,8 @@ public class RealHome extends FragmentActivity {
     public List<itemOrder> orders = new ArrayList<>();
     public List<foodItem> foodit = new ArrayList<>();
     public List<orderRecieved> recievedOrders = new ArrayList<>();
+    ArrayList<category> fullpack = new ArrayList<>();
+
     //Socket Definition
     public Socket mSocket;
 
@@ -65,8 +67,8 @@ public class RealHome extends FragmentActivity {
         tid.setText(tableid);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        TopSectionFragment tfg;
-        tfg = new TopSectionFragment();
+        MenuFragment tfg;
+        tfg = new MenuFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
@@ -87,8 +89,27 @@ public class RealHome extends FragmentActivity {
 
 
                              int i = 0;
+                             int  p = 0;
                              String itemname = null;
                              String status = null;
+
+                             while(p<fullpack.size())
+                             {
+                                 int q =  0;
+                                 while(q<fullpack.get(p).items.size())
+                                 {
+                                     if(fullpack.get(p).items.get(q).getId()==ack.getInt("itemid"))
+                                     {
+                                         itemname=fullpack.get(p).items.get(q).getName();
+                                         break;
+
+                                     }
+                                     q++;
+                                 }
+
+
+                                 p++;
+                             }
                              while(i!=foodit.size())
                              {
                                  if(foodit.get(i).getId()==ack.getInt("itemid"))
@@ -97,6 +118,8 @@ public class RealHome extends FragmentActivity {
                                  }
                                  i++;
                              }
+
+
                              if(ack.getString("status").equals("5min"))
                              {
                                 status = "Can be delivered in 5 minutes";
@@ -186,15 +209,14 @@ public class RealHome extends FragmentActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-            TopSectionFragment tfg;
-            tfg = new TopSectionFragment();
+            MenuFragment tfg;
+            tfg = new MenuFragment();
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle();
             bundle.putString("jsontext", jsonresult);
             tfg.setArguments(bundle);
-
 
            // transaction.replace(R.id.content,new TopSectionFragment()).commit();
             switch (item.getItemId()) {
