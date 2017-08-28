@@ -85,7 +85,6 @@ if(result.substring(0,1).equals("[")) {
     intent.putExtra("jsonresult", result);
     intent.putExtra("tableid", String.valueOf(tableid));
 
-    Toast.makeText(c,host,Toast.LENGTH_SHORT).show();
     intent.putExtra("hostip", host);
 
     c.startActivity(intent);

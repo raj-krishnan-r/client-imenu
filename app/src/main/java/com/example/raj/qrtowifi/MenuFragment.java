@@ -31,7 +31,6 @@ public class MenuFragment extends Fragment {
     View v;
     public Context cx;
 
-    TopSectionFragment.TopSectionListener activityCommander;
     public interface TopSectionListener{
         public void createMeme(String top,String bottom);
 
@@ -45,7 +44,6 @@ public class MenuFragment extends Fragment {
 
         Activity activity = getActivity();
         try {
-            activityCommander = (TopSectionFragment.TopSectionListener) activity;
         }catch(ClassCastException e)
         {
             //throw new ClassCastException(activity.toString());

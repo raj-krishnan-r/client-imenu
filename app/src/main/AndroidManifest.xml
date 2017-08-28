@@ -25,10 +25,6 @@
         <activity
             android:name=".RealHome"
             android:label="@string/title_activity_real_home" />
-        <activity
-            android:name=".bill"
-            android:label="@string/title_activity_bill"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

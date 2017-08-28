@@ -35,7 +35,6 @@ import static android.R.attr.key;
 public class QrScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView mscanner;
     ListView lv;
-    public itemAdapter adap;
     public Context context;
     public ArrayList<foodItem> m_parts = new ArrayList<foodItem>();
 

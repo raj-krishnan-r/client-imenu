@@ -218,7 +218,6 @@ public class RealHome extends FragmentActivity {
             bundle.putString("jsontext", jsonresult);
             tfg.setArguments(bundle);
 
-           // transaction.replace(R.id.content,new TopSectionFragment()).commit();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     menuid=0;
