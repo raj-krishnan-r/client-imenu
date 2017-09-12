@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#275014</color>
+    <color name="colorPrimary">#29d8ff</color>
     <color name="colorPrimaryDark">#d1bf7c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="menuFoodTitle">#b33360</color>
@@ -8,5 +8,6 @@
     <color name="menuFoodDesc">#c39667</color>
     <color name="categoryTitle">#275014</color>
     <color name="categoryBack">#65325000</color>
+    <color name="glowCyan">#29d8ff</color>
 
 </resources>

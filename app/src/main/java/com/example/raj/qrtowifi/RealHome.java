@@ -87,42 +87,15 @@ public class RealHome extends FragmentActivity {
                          try {
                              JSONObject ack = new JSONObject(String.valueOf(args[0]));
 
-
                              int i = 0;
                              int  p = 0;
                              String itemname = null;
                              String status = null;
-
-                             while(p<fullpack.size())
-                             {
-                                 int q =  0;
-                                 while(q<fullpack.get(p).items.size())
-                                 {
-                                     if(fullpack.get(p).items.get(q).getId()==ack.getInt("itemid"))
-                                     {
-                                         itemname=fullpack.get(p).items.get(q).getName();
-                                         break;
-
-                                     }
-                                     q++;
-                                 }
-
-
-                                 p++;
-                             }
-                             while(i!=foodit.size())
-                             {
-                                 if(foodit.get(i).getId()==ack.getInt("itemid"))
-                                 {
-                                     itemname=foodit.get(i).getName();
-                                 }
-                                 i++;
-                             }
-
+                             String orderid = ack.getString("orderid");
 
                              if(ack.getString("status").equals("5min"))
                              {
-                                status = "Can be delivered in 5 minutes";
+                                 status = "Can be delivered in 5 minutes";
                              }
                              else if(ack.getString("status").equals("10min"))
                              {
@@ -132,13 +105,56 @@ public class RealHome extends FragmentActivity {
                              {
                                  status = "Can be delivered now.";
                              }
-                             else
+                             else if(ack.getString("status").equals("nill"))
                              {
                                  status = "Order rejected";
 
                              }
-                             Toast.makeText(getApplicationContext(),"Order for "+itemname+" attended (See Notifications).",Toast.LENGTH_SHORT).show();
-                             recievedOrders.add(new orderRecieved(ack.getInt("itemid"),status,itemname,ack.getInt("itemcount"),ack.getString("orderid")));
+                             else
+                             {
+                                 status="Order placed and is pending...";
+                             }
+
+
+
+                             int ii=0,flag=0;
+
+                             while(ii<recievedOrders.size())
+                             {
+                                 if(ack.getString("orderid").equals(recievedOrders.get(ii).orderid))
+                                 {
+                                     flag=1;
+                                     break;
+                                 }
+                                 ii++;
+
+                             }
+                           if(flag==0)
+                           {
+                               while(p<fullpack.size())
+                               {
+                                   int q =  0;
+                                   while(q<fullpack.get(p).items.size())
+                                   {
+                                       if(fullpack.get(p).items.get(q).getId()==ack.getInt("itemid"))
+                                       {
+                                           itemname=fullpack.get(p).items.get(q).getName();
+                                           break;
+                                       }
+                                       q++;
+                                   }
+                                   p++;
+                               }
+
+                               Toast.makeText(getApplicationContext(),"Order for "+itemname+" attended (See Notifications).",Toast.LENGTH_SHORT).show();
+                               recievedOrders.add(new orderRecieved(ack.getInt("itemid"),status,itemname,ack.getInt("itemcount"),ack.getString("orderid")));
+                           }
+                           else
+                           {
+                               recievedOrders.get(ii).status=status;
+
+                           }
+
 
 
 

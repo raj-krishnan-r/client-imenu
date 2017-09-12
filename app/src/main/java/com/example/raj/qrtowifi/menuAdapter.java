@@ -142,6 +142,8 @@ public class menuAdapter extends BaseExpandableListAdapter {
                     ob.put("itemid",((RealHome)c).fullpack.get(groupP).items.get(childP).getId());
                     ob.put("count",((RealHome)c).fullpack.get(groupP).items.get(childP).getCount());
                     ob.put("orderid",((RealHome)c).fullpack.get(groupP).items.get(childP).getOrderid());
+                    ob.put("price",((RealHome)c).fullpack.get(groupP).items.get(childP).getPrice());
+
 
 
                 } catch (JSONException e) {
