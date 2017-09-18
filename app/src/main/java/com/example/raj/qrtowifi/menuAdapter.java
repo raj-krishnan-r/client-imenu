@@ -118,9 +118,17 @@ public class menuAdapter extends BaseExpandableListAdapter {
         ordercount.setText(String.valueOf(((RealHome)c).fullpack.get(groupPos).items.get(childPos).getCount()));
         fooddescription.setText(((RealHome)c).fullpack.get(groupPos).items.get(childPos).getDescriptions());
         foodprice.setText("Rs. "+String.valueOf(((RealHome)c).fullpack.get(groupPos).items.get(childPos).getPrice()) );
+
         if(((RealHome)c).fullpack.get(groupPos).items.get(childPos).getOrder())
         {
             order.setEnabled(true);
+            orderless.setEnabled(true);
+        }
+        if(((RealHome)c).fullpack.get(groupPos).items.get(childPos).getCount()==0)
+        {
+            orderless.setEnabled(false);
+            order.setEnabled(false);
+
         }
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +139,6 @@ public class menuAdapter extends BaseExpandableListAdapter {
                 String[] btags = buttonTag.split(",");
                 int groupP = Integer.parseInt(btags[1]);
                 int childP = Integer.parseInt(btags[0]);
-                ((RealHome)c).fullpack.get(groupP).items.get(childP).setOrder(true);
                 ((RealHome)c).fullpack.get(groupP).items.get(childP).orderid=String.valueOf(System.currentTimeMillis())+((RealHome)c).tableid;
 
 
@@ -152,6 +159,15 @@ public class menuAdapter extends BaseExpandableListAdapter {
 
                 ((RealHome)c).mSocket.emit("order",ob.toString());
                 Toast.makeText(c, "Order for "+String.valueOf(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount())+" "+((RealHome)c).fullpack.get(groupP).items.get(childP).getName()+" placed.", Toast.LENGTH_SHORT).show();
+                //Code to deduct from the Present Cost and add to Confirmed
+                float deductFromPresent = (((RealHome)c).fullpack.get(groupP).items.get(childP).getPrice())*(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount());
+                ((RealHome)c).presentCost-=deductFromPresent;
+                ((RealHome)c).pCost.setText(String.valueOf(((RealHome)c).presentCost));
+
+
+                ((RealHome)c).fullpack.get(groupP).items.get(childP).setCount(0);
+                ((RealHome)c).fullpack.get(groupP).items.get(childP).setOrder(false);
+
                 notifyDataSetChanged();
 
             }
@@ -170,10 +186,21 @@ public class menuAdapter extends BaseExpandableListAdapter {
                 ((RealHome)c).fullpack.get(groupP).items.get(childP).setOrder(true);
                 Button bb = (Button) tempview.findViewById(R.id.order);
                 bb.setEnabled(true);
+                //Enable Orderless button
+                Button orderle = (Button)tempview.findViewById(R.id.orderless);
+                orderle.setEnabled(true);
 
 
 
                 ((RealHome)c).fullpack.get(groupP).items.get(childP).setCount(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()+1);
+
+
+
+                ((RealHome)c).presentCost+=((RealHome)c).fullpack.get(groupP).items.get(childP).getPrice();
+
+                ((RealHome)c).pCost.setText(String.valueOf(((RealHome)c).presentCost));
+
+
                 notifyDataSetChanged();
 
                 ordercount = (EditText) tempview.findViewById(R.id.ordercount);
@@ -193,12 +220,13 @@ public class menuAdapter extends BaseExpandableListAdapter {
                 int groupP = Integer.parseInt(btags[1]);
                 int childP = Integer.parseInt(btags[0]);
 
+                ((RealHome)c).fullpack.get(groupP).items.get(childP).setCount(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()-1);
+                ordercount = (EditText) tempview.findViewById(R.id.ordercount);
+                ordercount.setText(String.valueOf(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()));
+                orderButton.setEnabled(false);
+                ((RealHome)c).presentCost-=((RealHome)c).fullpack.get(groupP).items.get(childP).getPrice();
 
-                if(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()!=0) {
-                    ((RealHome)c).fullpack.get(groupP).items.get(childP).setCount(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()-1);
-
-                   ordercount = (EditText) tempview.findViewById(R.id.ordercount);
-                    ordercount.setText(String.valueOf(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()));
+                ((RealHome)c).pCost.setText(String.valueOf(((RealHome)c).presentCost));
 
 
                     if(((RealHome)c).fullpack.get(groupP).items.get(childP).getCount()==0)
@@ -210,7 +238,7 @@ public class menuAdapter extends BaseExpandableListAdapter {
                     notifyDataSetChanged();
                 }
 
-            }
+
         });
 
 

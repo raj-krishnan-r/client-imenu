@@ -31,6 +31,38 @@
             android:text="00"
             android:textAppearance="@android:style/TextAppearance.Material.Display1" />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:gravity="right"
+            android:text="Confirmed ₹" />
+
+        <TextView
+            android:id="@+id/confCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:text="00"
+            android:textAppearance="@android:style/TextAppearance.Material.Display1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:gravity="right"
+            android:text="Present ₹" />
+
+        <TextView
+            android:id="@+id/presentCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:text="00"
+            android:textAppearance="@android:style/TextAppearance.Material.Display1" />
+
     </LinearLayout>
 
     <FrameLayout

@@ -35,6 +35,12 @@ import java.util.Objects;
 public class RealHome extends FragmentActivity {
     String jsonresult;
     public String tableid;
+    public float confirmedCost = 0;
+    public int presentCost = 0;
+
+    public TextView pCost;
+
+
     int menuid = 0;
     String hostip;
     //DataBank
@@ -64,6 +70,8 @@ public class RealHome extends FragmentActivity {
         mSocket.emit("registerUser",tableid);
 
         TextView tid = (TextView)findViewById(R.id.tableid);
+        pCost = (TextView)findViewById(R.id.presentCost);
+        final TextView confCost = (TextView) findViewById(R.id.confCost);
         tid.setText(tableid);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -86,9 +94,9 @@ public class RealHome extends FragmentActivity {
                      public void run() {
                          try {
                              JSONObject ack = new JSONObject(String.valueOf(args[0]));
-
                              int i = 0;
                              int  p = 0;
+
                              String itemname = null;
                              String status = null;
                              String orderid = ack.getString("orderid");
@@ -131,6 +139,8 @@ public class RealHome extends FragmentActivity {
                              }
                            if(flag==0)
                            {
+
+
                                while(p<fullpack.size())
                                {
                                    int q =  0;
@@ -152,6 +162,15 @@ public class RealHome extends FragmentActivity {
                            else
                            {
                                recievedOrders.get(ii).status=status;
+                               //Changing order cost
+                               if(!ack.getString("status").equals("wait")&&!ack.getString("status").equals("nill")&&!ack.getString("status").equals("wait")&&!ack.getString("status").equals("")) {
+                                   if(!ack.getString("price").equals("")) {
+                                       confirmedCost += ((Integer.parseInt(ack.getString("price"))*(Integer.parseInt(ack.getString("itemcount")))));
+                                       confCost.setText(String.valueOf(confirmedCost));
+                                   }
+
+                               }
+
 
                            }
 

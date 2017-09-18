@@ -118,6 +118,7 @@ ordercount.setText(String.valueOf(((RealHome)context).foodit.get(position).getCo
                     ob.put("itemid",((RealHome)context).foodit.get(pos).getId());
                     ob.put("count",((RealHome)context).foodit.get(pos).getCount());
                     ob.put("orderid",((RealHome)context).foodit.get(pos).getOrderid());
+                    ob.put("price",((RealHome)context).foodit.get(pos).getPrice());
 
 
                 } catch (JSONException e) {
@@ -138,6 +139,8 @@ ordercount.setText(String.valueOf(((RealHome)context).foodit.get(position).getCo
                 ((RealHome)context).foodit.get(pos).setOrder(true);
                 ordercount.setText(String.valueOf(((RealHome)context).foodit.get(pos).getCount()+1));
                 ((RealHome)context).foodit.get(pos).setCount(((RealHome)context).foodit.get(pos).getCount()+1);
+
+
                 notifyDataSetChanged();
 
             }
@@ -151,6 +154,8 @@ ordercount.setText(String.valueOf(((RealHome)context).foodit.get(position).getCo
                 if(((RealHome)context).foodit.get(pos).getCount()!=0) {
                     ordercount.setText(String.valueOf(((RealHome)context).foodit.get(pos).getCount() - 1));
                     ((RealHome)context).foodit.get(pos).setCount(((RealHome)context).foodit.get(pos).getCount() - 1);
+                    ((RealHome)context).presentCost-=((RealHome)context).foodit.get(pos).getPrice()*((RealHome)context).foodit.get(pos).getCount();
+                    ((RealHome)context).pCost.setText(String.valueOf(((RealHome)context).presentCost));
 
 
                     if(((RealHome)context).foodit.get(pos).getCount()==0)
