@@ -1,37 +1,16 @@
 package com.example.raj.qrtowifi;
 
-import android.app.ListActivity;
-import android.content.ClipData;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.zxing.Result;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import static android.R.attr.key;
-
 public class QrScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView mscanner;
     ListView lv;
@@ -64,7 +43,6 @@ public class QrScanner extends AppCompatActivity implements ZXingScannerView.Res
 
 
         String sresult = result.getText();
-        //String encodedresult="imensu"+sresult;
         String encodedresult = sresult;
 
         final String[] particular = sresult.split(",");
@@ -73,17 +51,9 @@ public class QrScanner extends AppCompatActivity implements ZXingScannerView.Res
         if (particular[0].equals("imenu")) {
             Toast.makeText(getApplicationContext(), "Wifi SSID : " + particular[1] + "\nWifi Password : " + particular[2] + "\nIP : " + particular[3]+"\nTable Id : "+particular[4], Toast.LENGTH_SHORT).show();
 
-         int tableid = Integer.parseInt(particular[4]);
-         new wifi2Ip(getApplicationContext(), tableid,particular[3]).execute(particular[1],particular[2],particular[3]);
+            int tableid = Integer.parseInt(particular[4]);
+            new wifi2Ip(getApplicationContext(), tableid,particular[3]).execute(particular[1],particular[2],particular[3]);
 
-            /*URL url = null;
-            try {
-                url = new URL("http://" + particular[3] + ":3000/listings");
-                new getData(context,adap).execute(url);
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }*/
         } else {
             Toast.makeText(getApplicationContext(), "You scanned an invalid QR code !\nPlease scan the valid one.", Toast.LENGTH_SHORT).show();
             mscanner.stopCamera();
@@ -92,30 +62,30 @@ public class QrScanner extends AppCompatActivity implements ZXingScannerView.Res
             mscanner.startCamera();
         }
     }
-public boolean wifiYes()
-{
-    ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-    if (activeNetwork != null) { // connected to the internet
-        if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-            Toast.makeText(getApplicationContext(), activeNetwork.getTypeName(), Toast.LENGTH_SHORT).show();
+    public boolean wifiYes()
+    {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(getApplicationContext(), activeNetwork.getTypeName(), Toast.LENGTH_SHORT).show();
 
-            return true;
-            // connected to wifi
-        } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                return true;
+                // connected to wifi
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-            // connected to the mobile provider's data plan
-            Toast.makeText(getApplicationContext(), activeNetwork.getTypeName(), Toast.LENGTH_SHORT).show();
-            return true;
+                // connected to the mobile provider's data plan
+                Toast.makeText(getApplicationContext(), activeNetwork.getTypeName(), Toast.LENGTH_SHORT).show();
+                return true;
 
+            }
+        } else {
+            // not connected to the internet
+            return false;
         }
-    } else {
-        // not connected to the internet
         return false;
-    }
-    return false;
 
-}
+    }
 
 
 }
