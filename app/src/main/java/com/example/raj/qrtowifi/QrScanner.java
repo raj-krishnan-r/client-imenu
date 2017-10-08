@@ -50,8 +50,8 @@ public class QrScanner extends AppCompatActivity implements ZXingScannerView.Res
 
         if (particular[0].equals("imenu")) {
             Toast.makeText(getApplicationContext(), "Wifi SSID : " + particular[1] + "\nWifi Password : " + particular[2] + "\nIP : " + particular[3]+"\nTable Id : "+particular[4], Toast.LENGTH_SHORT).show();
-
             int tableid = Integer.parseInt(particular[4]);
+            setContentView(R.layout.activity_qr_scanner);
             new wifi2Ip(getApplicationContext(), tableid,particular[3]).execute(particular[1],particular[2],particular[3]);
 
         } else {
